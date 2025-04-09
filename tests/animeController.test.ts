@@ -32,7 +32,6 @@ describe('Anime Controller Tests', () => {
   });
 
   it('should update an anime', async () => {
-    // Assume an anime exists with id 1 for testing
     const response = await request(app)
       .put('/anime/1')
       .send({
