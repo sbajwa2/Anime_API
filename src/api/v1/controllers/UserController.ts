@@ -9,7 +9,7 @@ export const getAllUsers = (req: Request, res: Response, next: NextFunction) => 
   try {
     res.status(200).json({ users });
   } catch (error) {
-    next(error); // Handle any unexpected errors
+    next(error); 
   }
 };
 
@@ -29,6 +29,6 @@ export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     users = users.filter(user => user.id !== id);
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
-    next(error); // Handle any unexpected errors
+    next(error); 
   }
 };
