@@ -1,3 +1,5 @@
 node_modules/
 dist/
 .vscode/
+.env
+animeproject-a2540-firebase-adminsdk-fbsvc-9b0695b2c2.json
