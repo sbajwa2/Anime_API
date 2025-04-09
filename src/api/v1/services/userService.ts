@@ -1,8 +1,7 @@
-import { db } from '../../../../config/firebase'; // Assuming you have set up Firebase properly
+import { db } from '../../../../config/firebase'; 
 import { User } from '../models/UserModel';
 import { BadRequestError, NotFoundError } from '../errors/errors';
 
-// Function to get all users
 export const getAllUsers = async (): Promise<User[]> => {
   try {
     const usersSnapshot = await db.collection('users').get();
@@ -16,7 +15,6 @@ export const getAllUsers = async (): Promise<User[]> => {
   }
 };
 
-// Function to create a new user
 export const createUser = async (username: string): Promise<User> => {
   try {
     if (!username) throw new BadRequestError('Username is required');
