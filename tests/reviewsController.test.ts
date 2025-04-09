@@ -6,7 +6,7 @@ import { getAllReviews, createReview, updateReview, deleteReview } from '../src/
  
 const app = express();
 
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json()); 
  
 
 app.get('/reviews', getAllReviews);
