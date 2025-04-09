@@ -154,7 +154,7 @@ router.put('/:id', updateReview);
  *         description: Review ID
  *     responses:
  *       200:
- *         description: Review deleted successfully
+ *         description: Review deleted successfully.
  */
 router.delete('/:id', deleteReview);
 
