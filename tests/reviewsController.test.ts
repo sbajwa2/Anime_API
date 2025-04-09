@@ -8,7 +8,6 @@ const app = express();
 
 app.use(express.json()); // To parse JSON bodies
  
-// Use the controller functions
 
 app.get('/reviews', getAllReviews);
 
@@ -100,11 +99,10 @@ describe('Review Controller Tests', () => {
 
         animeId: 102
 
-        // missing reviewText and rating
 
       });
 
-    expect(response.status).toBe(201); // adjust if validation is implemented
+    expect(response.status).toBe(201); 
 
     expect(response.body.message).toBe('Review created successfully');
 
