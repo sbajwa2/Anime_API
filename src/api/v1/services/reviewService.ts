@@ -1,4 +1,4 @@
-import { db } from '../../../../config/firebase'; // Assuming you have set up Firebase properly
+import { db } from '../../../../config/firebase'; 
 import { Review } from '../models/ReviewModel';
 import { BadRequestError, NotFoundError } from '../errors/errors';
 
@@ -16,7 +16,6 @@ export const getReviewsByAnimeId = async (animeId: string): Promise<Review[]> =>
   }
 };
 
-// Function to create a new review
 export const createReview = async (animeId: string, userId: string, rating: number, comment: string): Promise<Review> => {
   try {
     if (!animeId || !userId || !rating) {
@@ -43,7 +42,6 @@ export const createReview = async (animeId: string, userId: string, rating: numb
   }
 };
 
-// Function to delete a review by ID
 export const deleteReview = async (reviewId: string): Promise<void> => {
   try {
     const reviewDoc = await db.collection('reviews').doc(reviewId).get();
