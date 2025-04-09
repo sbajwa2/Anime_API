@@ -1,5 +1,7 @@
-import Joi from 'joi';
+// src/api/v1/models/UserModel.ts
 
-export const userSchema = Joi.object({
-  username: Joi.string().min(3).required()
-});
+export interface User {
+    id: string;
+    username: string;
+  }
+  

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../types/User';
-import { userSchema } from '../models/UserModel';
+import { userSchema } from '../schemas/userSchema';
 
 let users: User[] = [];
 let nextId = 1;
