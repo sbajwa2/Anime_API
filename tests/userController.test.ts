@@ -3,9 +3,8 @@ import express from 'express';
 import { getAllUsers, createUser, updateUser, deleteUser } from '../src/api/v1/controllers/UserController'; // Adjust the import based on your file structure
 
 const app = express();
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json()); 
 
-// Use the controller functions
 app.get('/users', getAllUsers);
 app.post('/users', createUser);
 app.put('/users/:id', updateUser);
@@ -33,7 +32,7 @@ describe('User Controller Tests', () => {
   });
 
   it('should update a user', async () => {
-    // Assuming a user exists with id 1 for testing
+
     const response = await request(app)
       .put('/users/1')
       .send({
