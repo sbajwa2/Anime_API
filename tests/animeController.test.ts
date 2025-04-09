@@ -45,7 +45,6 @@ describe('Anime Controller Tests', () => {
   });
 
   it('should delete an anime', async () => {
-    // Assume an anime exists with id 1 for testing
     const response = await request(app).delete('/anime/1');
     expect(response.status).toBe(200);
     expect(response.body.message).toBe('Anime deleted successfully');
