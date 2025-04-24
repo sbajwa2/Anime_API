@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for schemas/userSchema.ts</title>
+    <title>Code coverage report for middleware/authenticate.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../prettify.css" />
     <link rel="stylesheet" href="../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../index.html">All files</a> / <a href="index.html">schemas</a> userSchema.ts</h1>
+        <h1><a href="../index.html">All files</a> / <a href="index.html">middleware</a> authenticate.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>13/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>5/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>11/11</span>
             </div>
         
             
@@ -86,9 +86,10 @@
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
 <a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,41 +98,49 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import Joi from 'joi';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Request, Response, NextFunction } from 'express';
+import { auth } from '../../../../config/firebase';  // Assuming the firebase config is in config/firebase.ts
 &nbsp;
-// Define the user schema
-export const userSchema = Joi.object({
-  name: Joi.string().min(3).max(100).required().messages({
-    'string.base': 'Name must be a string',
-    'string.min': 'Name must be at least 3 characters long',
-    'string.max': 'Name must be less than 100 characters',
-    'any.required': 'Name is required',
-  }),
-  email: Joi.string().email().required().messages({
-    'string.base': 'Email must be a string',
-    'string.email': 'Email must be a valid email address',
-    'any.required': 'Email is required',
-  }),
-  age: Joi.number().integer().min(18).max(120).required().messages({
-    'number.base': 'Age must be a number',
-    'number.integer': 'Age must be an integer',
-    'number.min': 'Age must be at least 18',
-    'number.max': 'Age must be less than 120',
-    'any.required': 'Age is required',
-  }),
-});
+// Extend the Request interface to include `user` property
+interface CustomRequest extends Request {
+  user?: { [key: string]: any };  // This is where the decoded token will be attached
+}
+&nbsp;
+// Middleware to authenticate user by verifying Firebase ID token
+export const authenticate = async (req: CustomRequest, res: Response, next: NextFunction): Promise&lt;void&gt; =&gt; {
+  const idToken = req.headers.authorization?.split('Bearer ')[1]; // Get token from Authorization header
+&nbsp;
+  if (!idToken) {
+    res.status(401).json({ message: 'Authentication token is missing' });
+    return;  // We return here to prevent the rest of the code from executing
+  }
+&nbsp;
+  try {
+    // Verify the ID token using Firebase Auth
+    const decodedToken = await auth.verifyIdToken(idToken);
+    req.user = decodedToken; // Attach decoded token to the request object (can be used in routes)
+    next();  // Proceed to the next middleware or route handler
+  } catch (error) {
+    res.status(401).json({ message: 'Unauthorized access, invalid token' });
+  }
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
