@@ -5,6 +5,8 @@ import {
   updateReview,
   deleteReview
 } from '../controllers/ReviewsController';
+import { authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 
@@ -21,6 +23,8 @@ const router = Router();
  *   get:
  *     summary: Get all reviews
  *     tags: [Reviews]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of reviews
@@ -44,8 +48,12 @@ const router = Router();
  *                         type: string
  *                       rating:
  *                         type: number
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.get('/', getAllReviews);
+router.get('/', authenticate, authorize('user'), getAllReviews);
 
 /**
  * @swagger
@@ -106,8 +114,14 @@ router.get('/', getAllReviews);
  *                     rating:
  *                       type: number
  *                       example: 9.5
+ *       400:
+ *         description: Bad request (Invalid input)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.post('/', createReview);
+router.post('/', authenticate, authorize('user'), createReview);
 
 /**
  * @swagger
@@ -136,8 +150,42 @@ router.post('/', createReview);
  *     responses:
  *       200:
  *         description: Review updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Review updated successfully
+ *                 review:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     animeId:
+ *                       type: integer
+ *                       example: 1
+ *                     reviewer:
+ *                       type: string
+ *                       example: Smiley
+ *                     comment:
+ *                       type: string
+ *                       example: Amazing anime!
+ *                     rating:
+ *                       type: number
+ *                       example: 9.5
+ *       400:
+ *         description: Bad request (Invalid input)
+ *       404:
+ *         description: Not Found (Review not found)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.put('/:id', updateReview);
+router.put('/:id', authenticate, authorize('user'), updateReview);
 
 /**
  * @swagger
@@ -154,8 +202,22 @@ router.put('/:id', updateReview);
  *         description: Review ID
  *     responses:
  *       200:
- *         description: Review deleted successfully.
+ *         description: Review deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Review deleted successfully
+ *       404:
+ *         description: Not Found (Review not found)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.delete('/:id', deleteReview);
+router.delete('/:id', authenticate, authorize('user'), deleteReview);
 
 export default router;
