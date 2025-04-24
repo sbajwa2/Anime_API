@@ -22,4 +22,5 @@ export const deleteUserById = (id: number): boolean => {
   const originalLength = users.length;
   users = users.filter(user => user.id !== id);
   return users.length < originalLength;
+
 };
