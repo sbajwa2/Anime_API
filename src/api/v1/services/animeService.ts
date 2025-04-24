@@ -7,12 +7,14 @@ export const getAllAnime = async (): Promise<Anime[]> => {
   try {
     const animeSnapshot = await db.collection('anime').get();
     const animeList: Anime[] = [];
-    animeSnapshot.forEach((doc) => {
-      animeList.push({ id: doc.id, ...doc.data() } as Anime);
+    animeSnapshot.forEach(doc => {
+      animeList.push(doc.data() as Anime);
     });
     return animeList;
   } catch (error) {
-    throw new Error('Error retrieving anime');
+    // Log the error and return an empty array as a fallback
+    console.error("Error retrieving anime:", error);
+    return [];  // Return an empty array instead of throwing an error
   }
 };
 
@@ -27,7 +29,8 @@ export const createAnime = async (title: string, genre: string): Promise<Anime> 
     const newAnime = { id: newAnimeRef.id, title, genre };
     return newAnime;
   } catch (error) {
-    throw new Error('Error adding anime');
+    // Throwing a BadRequestError specific to adding anime
+    throw new BadRequestError('Error adding anime');
   }
 };
 
@@ -42,22 +45,36 @@ export const getAnimeById = async (animeId: string): Promise<Anime> => {
     
     return { id: animeDoc.id, ...animeDoc.data() } as Anime;
   } catch (error) {
-    throw new Error('Error retrieving anime');
+    // Throwing a NotFoundError specific to retrieving anime by ID
+    throw new NotFoundError('Error retrieving anime by ID');
   }
 };
 
+// Function to update an anime
 export const updateAnime = async (id: string, data: Partial<Anime>): Promise<Anime | null> => {
+  try {
     const docRef = db.collection('anime').doc(id);
     await docRef.update(data);
     const updatedDoc = await docRef.get();
-    if (!updatedDoc.exists) return null;
+    
+    if (!updatedDoc.exists) {
+      return null;  // If the document doesn't exist, return null
+    }
+    
     return { id: updatedDoc.id, ...updatedDoc.data() } as Anime;
-  };
-  
-  /**
-   * Delete an anime by ID.
-   */
-  export const deleteAnime = async (id: string): Promise<boolean> => {
+  } catch (error) {
+    // Throwing a generic error for update failures
+    throw new Error('Error updating anime');
+  }
+};
+
+// Function to delete an anime by ID
+export const deleteAnime = async (id: string): Promise<boolean> => {
+  try {
     await db.collection('anime').doc(id).delete();
     return true;
-  };
+  } catch (error) {
+    // Throwing a generic error for delete failures
+    throw new Error('Error deleting anime');
+  }
+};
