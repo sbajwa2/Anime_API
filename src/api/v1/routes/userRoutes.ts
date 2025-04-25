@@ -5,6 +5,9 @@ import {
   updateUser,
   deleteUser
 } from '../controllers/UserController';
+import { validateUserCreation } from '../middleware/validationMiddleware';
+import { authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 
@@ -21,6 +24,8 @@ const router = Router();
  *   get:
  *     summary: Get all users
  *     tags: [Users]
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: List of users
@@ -40,8 +45,12 @@ const router = Router();
  *                         type: string
  *                       email:
  *                         type: string
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.get('/', getAllUsers);
+router.get('/users', authenticate, authorize('admin'), getAllUsers);
 
 /**
  * @swagger
@@ -88,8 +97,14 @@ router.get('/', getAllUsers);
  *                     email:
  *                       type: string
  *                       example: smiley@example.com
+ *       400:
+ *         description: Bad request (Invalid input)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.post('/', createUser);
+router.post('/', validateUserCreation, authenticate, authorize('admin'), createUser);
 
 /**
  * @swagger
@@ -118,8 +133,36 @@ router.post('/', createUser);
  *     responses:
  *       200:
  *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User updated successfully
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     name:
+ *                       type: string
+ *                       example: Smiley
+ *                     email:
+ *                       type: string
+ *                       example: smiley@example.com
+ *       400:
+ *         description: Bad request (Invalid input)
+ *       404:
+ *         description: Not Found (User not found)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.put('/:id', updateUser);
+router.put('/:id', authenticate, authorize('admin'), updateUser);
 
 /**
  * @swagger
@@ -137,8 +180,21 @@ router.put('/:id', updateUser);
  *     responses:
  *       200:
  *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User deleted successfully
+ *       404:
+ *         description: Not Found (User not found)
+ *       401:
+ *         description: Unauthorized (User not authenticated)
+ *       403:
+ *         description: Forbidden (User not authorized)
  */
-router.delete('/:id', deleteUser);
+router.delete('/:id', authenticate, authorize('admin'), deleteUser);
 
 export default router;
-

@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "3906469f-85a3-44eb-a566-7f47e1f44956",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44373542",
+		"_collection_link": "https://smile-9814973.postman.co/workspace/Smile's-Workspace~346c1b96-dd81-47be-8baf-7099964b3b19/collection/44373542-3906469f-85a3-44eb-a566-7f47e1f44956?action=share&source=collection_link&creator=44373542"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"sbajwa2@gmail.com\",\r\n  \"password\": \"manusmile\",\r\n  \"returnSecureToken\": true\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBEpE-r7X6sh9st6ZHWKXtDYHTyj9gCeZc",
+					"protocol": "https",
+					"host": [
+						"identitytoolkit",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"v1",
+						"accounts:signInWithPassword"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyBEpE-r7X6sh9st6ZHWKXtDYHTyj9gCeZc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjkwOTg1NzhjNDg4MWRjMDVlYmYxOWExNWJhMjJkOGZkMWFiMzRjOGEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYW5pbWUtYWQ3ZjMiLCJhdWQiOiJhbmltZS1hZDdmMyIsImF1dGhfdGltZSI6MTc0NTU4MDY1NywidXNlcl9pZCI6IlZFV2UzTW9ZZjhmVFVjbHliZ2xFSjZDTnRxZDIiLCJzdWIiOiJWRVdlM01vWWY4ZlRVY2x5YmdsRUo2Q050cWQyIiwiaWF0IjoxNzQ1NTgwNjU3LCJleHAiOjE3NDU1ODQyNTcsImVtYWlsIjoic2JhandhMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsic2JhandhMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.iKolR25XxHwEOobNhbk6Q4BKpJ6NqM5z8ckZ9D_SPmjk-7rPG3f5_eW9hJAlTDI8hZiGCZq8HYoBG980b9qHQpNIBMMDVT16YM_HwpVd4mf28JF1xUFz_dfpiADEtLinDK2BpWv1aNk0NxyP6Z0lWK8VpavtDQuuikEzt0EJHqgiCKlSQZTISvW_Z_lYNpTJbJdPVTQhDqu5k-zEZy7euDsJETBWxiO0PBlbpSWPjofn4msOtVDLgpDkLqvI0JaU8s96a7CK_CEo2l3rFk0VLl3OdyS984O3rsMUzy2bdGFAOnu9Z2JhHbmQQpZR7QwJ1ZSZag2NgDoggTpObpUTPA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjkwOTg1NzhjNDg4MWRjMDVlYmYxOWExNWJhMjJkOGZkMWFiMzRjOGEiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vYW5pbWUtYWQ3ZjMiLCJhdWQiOiJhbmltZS1hZDdmMyIsImF1dGhfdGltZSI6MTc0NTU4MDY1NywidXNlcl9pZCI6IlZFV2UzTW9ZZjhmVFVjbHliZ2xFSjZDTnRxZDIiLCJzdWIiOiJWRVdlM01vWWY4ZlRVY2x5YmdsRUo2Q050cWQyIiwiaWF0IjoxNzQ1NTgwNjU3LCJleHAiOjE3NDU1ODQyNTcsImVtYWlsIjoic2JhandhMkBnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImZpcmViYXNlIjp7ImlkZW50aXRpZXMiOnsiZW1haWwiOlsic2JhandhMkBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.iKolR25XxHwEOobNhbk6Q4BKpJ6NqM5z8ckZ9D_SPmjk-7rPG3f5_eW9hJAlTDI8hZiGCZq8HYoBG980b9qHQpNIBMMDVT16YM_HwpVd4mf28JF1xUFz_dfpiADEtLinDK2BpWv1aNk0NxyP6Z0lWK8VpavtDQuuikEzt0EJHqgiCKlSQZTISvW_Z_lYNpTJbJdPVTQhDqu5k-zEZy7euDsJETBWxiO0PBlbpSWPjofn4msOtVDLgpDkLqvI0JaU8s96a7CK_CEo2l3rFk0VLl3OdyS984O3rsMUzy2bdGFAOnu9Z2JhHbmQQpZR7QwJ1ZSZag2NgDoggTpObpUTPA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Naruto\",\r\n  \"genre\": \"Action\",\r\n  \"rating\": 9.5\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/v1/anime",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"anime"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

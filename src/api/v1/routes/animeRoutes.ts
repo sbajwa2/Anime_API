@@ -5,6 +5,8 @@ import {
   updateAnime,
   deleteAnime
 } from '../controllers/AnimeController';
+import { authenticate } from '../middleware/authenticate';
+import { authorize } from '../middleware/authorize';
 
 const router = Router();
 
@@ -43,7 +45,7 @@ const router = Router();
  *                       rating:
  *                         type: number
  */
-router.get('/', getAllAnime);
+router.get('/', getAllAnime); // No authentication or authorization needed for fetching all anime
 
 /**
  * @swagger
@@ -98,7 +100,7 @@ router.get('/', getAllAnime);
  *                       type: number
  *                       example: 8.5
  */
-router.post('/', createAnime);
+router.post('/', authenticate, authorize('admin'), createAnime); // Add authentication and admin authorization
 
 /**
  * @swagger
@@ -130,7 +132,7 @@ router.post('/', createAnime);
  *       200:
  *         description: Anime updated successfully
  */
-router.put('/:id', updateAnime);
+router.put('/:id', authenticate, authorize('admin'), updateAnime); // Add authentication and admin authorization
 
 /**
  * @swagger
@@ -149,6 +151,6 @@ router.put('/:id', updateAnime);
  *       200:
  *         description: Anime deleted successfully
  */
-router.delete('/:id', deleteAnime);
+router.delete('/:id', authenticate, authorize('admin'), deleteAnime); // Add authentication and admin authorization
 
 export default router;
